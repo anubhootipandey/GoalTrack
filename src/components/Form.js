@@ -1,31 +1,43 @@
 import React, {useState} from 'react';
+import TodoTask from './TodoTask';
 
 const Form = () => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [dueDate, setDueDate] = useState('');
-    const [priority, setPriority] = useState('P1');
+    const initialTodoData = {
+        title:" ", 
+        description:" ",
+        dueDate:" ", 
+        priority:" "
+    }
+    const [userInput, setUserInput] = useState([initialTodoData]);
+    const [formData, setFormData] = useState([initialTodoData]);
+    
+    const handleUserInput = (event) => {
+        // setUserInput();
+        const name = event.target.name;
+        const value = event.target.value;
+        //...value->destructuring of the previous userInput state value
+        setUserInput(values => ({...values, [name]: value}));
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();//used to stop the default behavior of an event from happening.
-        setTitle('');//when onSubmit it shows updated title
-        setDescription('');//when onSubmit it shows updated description
-        setDueDate('');//when onSubmit it shows updated due date 
-        setPriority('P1');//when onSubmit it shows updated priority 
+        setFormData(userInput);
     };
+    console.log(formData);
+
     return (
     <form onSubmit={handleSubmit}>
         <label>Title:
-            <input type='text' placeholder='Enter title' value={title} onChange={(e) => setTitle(e.target.value)} />
+            <input type='text' name='title' placeholder='Enter title' value={userInput.title} onChange={handleUserInput} />
         </label>
         <label>Description:
-            <input type='textarea' placeholder='Enter description' value={description} onChange={(e) => setDescription(e.target.value)} />
+            <input type='textarea' name='description' placeholder='Enter description' value={userInput.description} onChange={handleUserInput} />
         </label>
         <label>Due date:
-            <input type='date' value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+            <input type='date' name='dueDate' value={userInput.dueDate} onChange={handleUserInput} />
         </label>
         <label>Priority:
-            <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+            <select name='priority' value={userInput.priority} onChange={handleUserInput}>
                 <option value="P1">P1</option>
                 <option value="P2">P2</option>
                 <option value="P3">P3</option>
@@ -33,6 +45,8 @@ const Form = () => {
             </select>
         </label>
         <button type='submit'>Add task</button>
+        <TodoTask formData={formData} />
+
     </form>
   );
 }
