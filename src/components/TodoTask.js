@@ -1,18 +1,19 @@
 import React from 'react';
+import "../App.css";
 
 const TodoTask = ({formData}) => {
   //optional chaining
   return (
-    <>
+    <div className='todo-container'>
     <h3>List of todo item:</h3>
     <input type='search' placeholder='Search by task title or description' />
+    <table id='data'>
     <thead>
     <tr>
         <th>Title</th>
         <th>Description</th>
         <th>Due Date</th>
         <th>Priority</th>
-        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -23,7 +24,8 @@ const TodoTask = ({formData}) => {
         <td>{formData?.priority}</td>
       </tr>
     </tbody>
-    </>
+    </table>
+    </div>
   );
 }
 
