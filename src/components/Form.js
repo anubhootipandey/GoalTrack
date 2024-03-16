@@ -1,31 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TodoTask from "./TodoTask";
 import '../App.css';
 
 const Form = () => {
-  const initialTodoData = {
-    title: " ",
-    description: " ",
-    dueDate: " ",
-    priority: " ",
+  const initialUserInput = {
+    title: "",
+    description: "",
+    dueDate: "",
+    priority: "P2",
   };
-  const [userInput, setUserInput] = useState([initialTodoData]);
-  const [formData, setFormData] = useState([initialTodoData]);
+  
+  const [userInput, setUserInput] = useState(initialUserInput);
+  const [formData, setFormData] = useState([]);
+
+  // Load data from local storage on component mount
+  useEffect(() => {
+    const storedFormData = localStorage.getItem('key');
+    if (storedFormData) {
+      setFormData(JSON.parse(storedFormData));
+    }
+  }, []);
+
+  // Save data to local storage whenever formData changes
+  useEffect(() => {
+    localStorage.setItem('key', JSON.stringify(formData));
+  }, [formData]);
 
   const handleUserInput = (event) => {
-    // setUserInput();
-    const name = event.target.name;
-    const value = event.target.value;
-    //...value->destructuring of the previous userInput state value
-    setUserInput((values) => ({ ...values, [name]: value }));
+    const { name, value } = event.target;
+    setUserInput(prevUserInput => ({ ...prevUserInput, [name]: value }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault(); //used to stop the default behavior of an event from happening.
-    setFormData(userInput);
+    setFormData(prevFormData => ([...prevFormData, userInput]));
+    localStorage.setItem('key', JSON.stringify(formData));
+    setUserInput(initialUserInput); // Reset userInput to initial state
   };
   console.log(formData);
-
+  
   return (
     <div className="main-container">
       <form onSubmit={handleSubmit} className="form-style">
@@ -73,7 +86,7 @@ const Form = () => {
         </label>
         <button type="submit">Add task</button>
       </form>
-      <TodoTask formData={formData} />
+      <TodoTask formData={formData} setFormData={setFormData} />
     </div>
   );
 };

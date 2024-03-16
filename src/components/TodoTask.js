@@ -1,8 +1,27 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import "../App.css";
 
-const TodoTask = ({formData}) => {
+const TodoTask = ({formData, setFormData}) => {
   //optional chaining
+  useEffect(() => {
+    const storedFormData = localStorage.getItem('key');
+    if (storedFormData) {
+        setFormData(JSON.parse(storedFormData));
+    }
+}, [setFormData]);
+
+  const getArrayData = () => {
+    const data = formData.map((item) => {
+      return <tr>
+      <td>{item.title}</td>
+      <td>{item.description}</td>
+      <td>{item.dueDate}</td>
+      <td>{item.priority}</td>
+      </tr>
+    })
+    return data;
+  }
+  console.log("result", formData);
   return (
     <div className='todo-container'>
     <h3>List of todo item:</h3>
@@ -17,12 +36,7 @@ const TodoTask = ({formData}) => {
     </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>{formData?.title}</td>
-        <td>{formData?.description}</td>
-        <td>{formData?.dueDate}</td>
-        <td>{formData?.priority}</td>
-      </tr>
+      {getArrayData()}
     </tbody>
     </table>
     </div>
