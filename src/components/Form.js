@@ -21,11 +21,6 @@ const Form = () => {
     }
   }, []);
 
-  // Save data to local storage whenever formData changes
-  useEffect(() => {
-    localStorage.setItem('key', JSON.stringify(formData));
-  }, [formData]);
-
   const handleUserInput = (event) => {
     const { name, value } = event.target;
     setUserInput(prevUserInput => ({ ...prevUserInput, [name]: value }));
@@ -33,8 +28,9 @@ const Form = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault(); //used to stop the default behavior of an event from happening.
-    setFormData(prevFormData => ([...prevFormData, userInput]));
-    localStorage.setItem('key', JSON.stringify(formData));
+    const updatedFormData = [...formData, userInput]; // Update form data
+    setFormData(updatedFormData); // Update form data state
+    localStorage.setItem('key', JSON.stringify(updatedFormData)); // Update local storage
     setUserInput(initialUserInput); // Reset userInput to initial state
   };
   console.log(formData);
