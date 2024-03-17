@@ -17,6 +17,13 @@ const TodoTask = ({ formData, setFormData }) => {
       item.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }
+  
+  const handleDeleteTask = (index) => {
+    const updatedFormData = [...formData];
+    updatedFormData.splice(index, 1); // Remove the task at the specified index
+    setFormData(updatedFormData);
+    localStorage.setItem('key', JSON.stringify(updatedFormData));
+  };
 
   const getArrayData = () => {
     const filteredData = getFilteredData();
@@ -26,6 +33,7 @@ const TodoTask = ({ formData, setFormData }) => {
         <td>{item.description}</td>
         <td>{item.dueDate}</td>
         <td>{item.priority}</td>
+        <td><button onClick={() => handleDeleteTask(index)}>Delete</button></td>
       </tr>
     ));
   }
@@ -43,6 +51,7 @@ const TodoTask = ({ formData, setFormData }) => {
         value={searchQuery}
         onChange={handleSearchChange}
       />
+      
       <table id='data'>
         <thead>
           <tr>
@@ -50,6 +59,7 @@ const TodoTask = ({ formData, setFormData }) => {
             <th>Description</th>
             <th>Due Date</th>
             <th>Priority</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>

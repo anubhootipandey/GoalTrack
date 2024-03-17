@@ -1,5 +1,6 @@
 .main-container {
   display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
   justify-content: space-between;
   margin: 20px;
   background-color: #8094c4;
@@ -13,31 +14,21 @@
   border-radius: 5px;
   border: 1px solid #ccc;
   margin-right: 20px;
-  width: 400px;
-}
-
-label {
-  display: block;
-  margin-bottom: 10px;
+  width: calc(50% - 20px); /* Adjust width for smaller screens */
+  max-width: 400px; /* Limit maximum width */
 }
 
 input[type="text"],
 input[type="date"],
-select {
-  width: 350px;
+select,
+textarea,
+input[type="search"] {
+  width: 100%; /* Take full width */
   padding: 8px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background:#d5dbeb;
-}
-
-textarea {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  background: #d5dbeb;
 }
 
 button {
@@ -52,19 +43,10 @@ button {
 button:hover {
   background-color: #0056b3;
 }
-  
-table> tbody > tr:nth-child(odd) > td,
-table > tbody > tr:nth-child(odd) > th {
-  background-color: #abb7d7;
-}
-table {
-  border: 1px solid lightgray;
-  height: 80px;
-}
 
-#data {
-  width: 100%;
-  border-collapse: collapse;
+table {
+  width: 100%; 
+  border: 1px solid lightgray;
   margin-top: 20px;
 }
 
@@ -73,6 +55,7 @@ table {
   padding: 8px;
   border: 1px solid #ccc;
   text-align: left;
+  background-color: #abb7d7;
 }
 
 #data th {
@@ -81,14 +64,22 @@ table {
 }
 
 input[type="search"] {
-  width: 650px;
   height: 40px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 20px;
-  background:#d5dbeb;
 }
-h3{
+
+h3 {
   font-size: large;
+}
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 768px) {
+  .main-container {
+    flex-direction: column; 
+    align-items: center; 
+  }
+  
+  .form-style {
+    width: 100%; 
+    margin-right: 0; 
+  }
 }
