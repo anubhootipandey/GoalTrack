@@ -22,7 +22,7 @@ const TodoTask = ({ formData, setFormData }) => {
       item.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }
-  
+
   const handleDeleteTask = (index) => {
     const updatedFormData = [...formData];
     updatedFormData.splice(index, 1); // Remove the task at the specified index
@@ -52,10 +52,17 @@ const TodoTask = ({ formData, setFormData }) => {
     setEditingIndex(null);
   };
 
+  const handleTaskDone = (index) => {
+    const updatedFormData = [...formData];
+    updatedFormData[index].done = true; // Add a "done" property to the task object
+    setFormData(updatedFormData);
+    localStorage.setItem('key', JSON.stringify(updatedFormData));
+  };
+
   const getArrayData = () => {
     const filteredData = getFilteredData();
     return filteredData.map((item, index) => (
-      <tr key={index}>
+      <tr key={index} className={item.done ? 'done' : ''}>
         <td>{index === editingIndex ? <input type="text" value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} /> : item.title}</td>
         <td>{index === editingIndex ? <input type="text" value={editedDescription} onChange={(e) => setEditedDescription(e.target.value)} /> : item.description}</td>
         <td>{index === editingIndex ? <input type="date" value={editedDueDate} onChange={(e) => setEditedDueDate(e.target.value)} /> : item.dueDate}</td>
@@ -67,6 +74,7 @@ const TodoTask = ({ formData, setFormData }) => {
             <>
               <button onClick={() => handleEditTask(index)}>Edit</button>
               <button onClick={() => handleDeleteTask(index)}>Delete</button>
+              {!item.done && <button onClick={() => handleTaskDone(index)}>Done</button>}
             </>
           )}
         </td>

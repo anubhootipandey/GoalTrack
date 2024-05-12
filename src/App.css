@@ -52,6 +52,11 @@ table {
   margin-top: 20px;
 }
 
+.done td {
+  text-decoration: line-through;
+}
+
+
 #data th,
 #data td {
   padding: 8px;
